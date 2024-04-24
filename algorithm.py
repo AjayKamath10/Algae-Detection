@@ -21,14 +21,15 @@ def estimate_cyanobacteria_density(image_path, date, location, elevation):
     # This assumes you have saved your models to disk
     lgb_model = lgb.Booster(model_file='lgb_model.txt')
     xgb_model = xgb.Booster()
+    
     xgb_model.load_model('xgb_model.json')
-    cat_model = cb.CatBoostClassifier()
-    cat_model.load_model('cat_model.cbm')
+    cat_boost_model = cb.CatBoostClassifier()
+    cat_boost_model.load_model('cat_boost_model.cbm')
     
     # Make predictions with each model
     lgb_pred = lgb_model.predict(data['features'])
     xgb_pred = xgb_model.predict(data['features'])
-    cat_pred = cat_model.predict(data['features'])
+    cat_pred = cat_boost_model.predict(data['features'])
     
     
     avg_pred = np.mean([lgb_pred, xgb_pred, cat_pred])
