@@ -30,8 +30,7 @@ def estimate_cyanobacteria_density(image_path, date, location, elevation):
     xgb_pred = xgb_model.predict(data['features'])
     cat_pred = cat_model.predict(data['features'])
     
-    # Average the predictions (or use another method to combine them)
-    # This is a simple example; you might want to use a more sophisticated method
+    
     avg_pred = np.mean([lgb_pred, xgb_pred, cat_pred])
     
     return avg_pred

@@ -56,4 +56,9 @@ def kmeans_lake_detection(image_path, num_clusters=2):
     
     # Return the filtered image
     return lake_mask
+    
+def preprocess_image(image):
+    MinCloudImage = filter_water_pixels(select_image_with_min_clouds(image))
+    lake_mask = kmeans_lake_detection(MinCloudImage)
+    return np.array(lake_mask)
 

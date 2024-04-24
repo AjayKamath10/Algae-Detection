@@ -1,8 +1,8 @@
 import pandas as pd
 import argparse
 from sentinel import fetch_sentinel_image
-from lightgbm import predict_cyanobacteria_density
-
+from preprocess import preprocess_image
+from algorithm import estimate_cyanobacteria_density
 
 def read_csv_file(file_path):
     df = pd.read_csv(file_path)
@@ -25,18 +25,19 @@ def main():
     data = read_csv_file(args.file)
     
     images = []
+    preprocessed_images = []
     
     for (latitude, longitude, date) in data:
         images.append(fetch_sentinel_image((latitude, longitude, date)))
     
-    
-
     predictions = []
     
     for image in images:
-    predict_cyanobacteria_density(data)
+        preprocessed_images.append(preprocess_image(image))
     
     save_metadata_and_predictions(data, predictions, args.keep_metadata)
+    
+    
 
 if __name__ == '__main__':
     main()
